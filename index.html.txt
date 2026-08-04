@@ -1,0 +1,1035 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROSA EXPRESS GE - Formulario Oficial de Transferencias</title>
+  <!-- Archivo CSS Local (Sin dependencias externas) -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* RESET BASE Y COMPATIBILIDAD UNIFORME EN TODOS LOS NAVEGADORES MÓVILES */
+    *, *::before, *::after {
+      box-sizing: border-box !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden !important;
+    }
+
+    /* Anular completamente los estilos predeterminados del navegador en iOS y Android */
+    button, input, select, textarea {
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      appearance: none !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      line-height: inherit !important;
+      border-radius: 0;
+      box-sizing: border-box !important;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      outline: none;
+      touch-action: manipulation;
+    }
+
+    /* PALETA DE COLORES Y ESTILOS PRINCIPALES */
+    .bg-granada, .bg-\[\#800020\], .bg-\[\#6B001D\] {
+      background-color: #800020 !important;
+    }
+
+    .text-granada, .text-\[\#800020\], .text-\[\#6B001D\] {
+      color: #800020 !important;
+    }
+
+    .border-granada, .border-\[\#800020\], .border-\[\#6B001D\] {
+      border-color: #800020 !important;
+    }
+
+    .hover-bg-granada:hover {
+      background-color: #66001a !important;
+    }
+
+    .active-bg-granada:active {
+      background-color: #4d0013 !important;
+    }
+
+    /* ESTILOS DE CAMPOS DE FORMULARIO */
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"] {
+      width: 100% !important;
+      padding: 12px 16px !important;
+      background-color: #f8fafc !important;
+      border: 1.5px solid #cbd5e1 !important;
+      border-radius: 12px !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #0f172a !important;
+      transition: all 0.15s ease !important;
+      box-sizing: border-box !important;
+    }
+
+    input:focus {
+      outline: none !important;
+      border-color: #800020 !important;
+      background-color: #ffffff !important;
+      box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.15) !important;
+    }
+
+    /* CAMPOS CON ERROR */
+    input.border-rose-600 {
+      border-color: #fca5a5 !important;
+      background-color: #fef2f2 !important;
+      color: #991b1b !important;
+    }
+
+    /* BOTÓN PRINCIPAL DEL FORMULARIO */
+    #btn-submit-form, button[type="submit"] {
+      width: 100% !important;
+      background-color: #800020 !important;
+      color: #ffffff !important;
+      padding: 16px 20px !important;
+      font-size: 15px !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      min-height: 48px !important;
+    }
+
+    #btn-submit-form:hover {
+      background-color: #66001a !important;
+    }
+
+    /* BOTONES DE COPIAR (DORADO / ÁMBAR ALTO CONTRASTE) */
+    button[onclick*="copiarDatoCampo"], .btn-copiar {
+      background-color: #f59e0b !important;
+      color: #0f172a !important;
+      font-weight: 900 !important;
+      font-size: 12px !important;
+      padding: 8px 12px !important;
+      border-radius: 8px !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+      white-space: nowrap !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      border: none !important;
+    }
+
+    button[onclick*="copiarDatoCampo"]:hover, .btn-copiar:hover {
+      background-color: #d97706 !important;
+      color: #000000 !important;
+    }
+
+    /* MODALES Y VENTANAS EMERGENTES */
+    #modal-acceso-agente, #confirm-modal {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      z-index: 9999 !important;
+      background-color: rgba(15, 23, 42, 0.8) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px !important;
+    }
+
+    #modal-acceso-agente.hidden, #confirm-modal.hidden {
+      display: none !important;
+    }
+
+    #modal-acceso-agente > div, #confirm-modal > div {
+      width: 100% !important;
+      max-width: 440px !important;
+      background-color: #ffffff !important;
+      border-radius: 20px !important;
+      border: 2px solid #800020 !important;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3) !important;
+      overflow: hidden !important;
+    }
+
+    /* ADAPTACIÓN MÓVIL RESPONSIVA DE UNA SOLA COLUMNA */
+    @media (max-width: 639px) {
+      body {
+        padding: 12px !important;
+      }
+
+      .grid-cols-1, .grid-cols-2, .md\:grid-cols-2, .md\:grid-cols-4 {
+        grid-template-columns: 1fr !important;
+      }
+
+      .campo-container {
+        width: 100% !important;
+        margin-bottom: 14px !important;
+      }
+
+      header {
+        padding: 16px !important;
+      }
+
+      header .flex {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+      }
+
+      header button {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+
+      #lista-solicitudes > div {
+        padding: 14px !important;
+      }
+    }
+  </style>
+
+  <!-- BASE DE DATOS EN TIEMPO REAL (FIREBASE SDK) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      doc, 
+      updateDoc, 
+      deleteDoc, 
+      onSnapshot, 
+      query, 
+      orderBy 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      projectId: "gen-lang-client-0489870141",
+      appId: "1:431446088189:web:fc853cbe8bf9291fea6194",
+      apiKey: "AIzaSyAhZEgOIV6RbtCka92IT3Ab1bpYiRAsuKw",
+      authDomain: "gen-lang-client-0489870141.firebaseapp.com",
+      storageBucket: "gen-lang-client-0489870141.firebasestorage.app",
+      messagingSenderId: "431446088189"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app, "ai-studio-rosaexpress-82a15ddd-ad05-4463-9376-a2d81e821e61");
+
+    window.db = db;
+    window.addDoc = addDoc;
+    window.collection = collection;
+    window.doc = doc;
+    window.updateDoc = updateDoc;
+    window.deleteDoc = deleteDoc;
+
+    // Escuchar solicitudes en tiempo real desde la base de datos compartida
+    onSnapshot(collection(db, "solicitudes"), (snapshot) => {
+      const list = [];
+      snapshot.forEach((docSnap) => {
+        list.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Ordenar por fecha de creación (más recientes primero)
+      list.sort((a, b) => {
+        const timeA = new Date(a.fechaCreacion || a.createdAt || a.fecha || 0).getTime();
+        const timeB = new Date(b.fechaCreacion || b.createdAt || b.fecha || 0).getTime();
+        return timeB - timeA;
+      });
+
+      window.allSolicitudes = list;
+      window.solicitudes = list.filter(s => !s.eliminado);
+      window.papelera = list.filter(s => s.eliminado);
+
+      if (typeof window.renderizarPanelAgente === 'function') {
+        window.renderizarPanelAgente();
+      }
+    }, (err) => {
+      console.error("Error en listener de Firestore:", err);
+    });
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 flex flex-col items-center justify-start p-3 sm:p-6 md:p-8">
+
+  <!-- NOTIFICACIÓN TOAST FLOTANTE -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-granada p-4 text-white flex items-center gap-3">
+        <div class="p-2 bg-white/10 rounded-xl">
+          <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h3 id="confirm-title" class="font-extrabold text-base tracking-wide uppercase">Confirmar Acción</h3>
+      </div>
+      <div class="p-6 space-y-4">
+        <p id="confirm-message" class="text-sm font-medium text-slate-700 leading-relaxed">¿Estás seguro de que quieres borrar esta solicitud?</p>
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="cerrarModalConfirmacion()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="confirm-action-btn" class="px-5 py-2.5 bg-granada hover-bg-granada text-white font-extrabold text-xs rounded-xl shadow-md transition cursor-pointer">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONTRASEÑA ACCESO AGENTE -->
+  <div id="modal-acceso-agente" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border-2 border-granada overflow-hidden">
+      <!-- Header Granada -->
+      <div class="bg-granada p-5 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-white/10 rounded-xl border border-white/20">
+            <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-black tracking-wide uppercase">Acceso Agente</h3>
+            <p class="text-xs text-rose-200 font-medium">Panel Privado Rosa Express</p>
+          </div>
+        </div>
+        <button type="button" onclick="cerrarModalAgente()" class="text-rose-200 hover:text-white p-1 rounded-lg hover:bg-white/10 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <p class="text-xs font-medium text-slate-600 bg-rose-50 border border-rose-200 p-3 rounded-xl leading-relaxed">
+          Introduce la contraseña de agente para acceder al panel privado de solicitudes.
+        </p>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            Contraseña de Seguridad
+          </label>
+          <input 
+            type="password" 
+            id="password-input" 
+            placeholder="Escribe la contraseña (ej. rosak601)" 
+            onkeydown="if(event.key === 'Enter') verificarPassword()"
+            class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-rose-800 outline-none text-center tracking-widest text-lg"
+          >
+          <p id="password-error" class="hidden text-xs font-bold text-rose-600 mt-2 text-center">
+            ⚠️ Contraseña incorrecta. Inténtalo de nuevo.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="cerrarModalAgente()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+            Cancelar
+          </button>
+          <button type="button" onclick="verificarPassword()" class="px-5 py-2.5 bg-granada hover-bg-granada text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center gap-2">
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Entrar al Panel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+  <div class="w-full max-w-4xl space-y-6">
+
+    <!-- CABECERA SUPERIOR Y ÚNICO ENLACE GENERAL -->
+    <header class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        <!-- TÍTULO PRINCIPAL -->
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-granada text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
+            R
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight uppercase">ROSA EXPRESS GE</h1>
+            <p class="text-xs font-semibold text-slate-500">Sistema Oficial de Transferencias y Envíos</p>
+          </div>
+        </div>
+
+        <!-- BOTONES DE CABECERA: COPIAR ENLACE & ACCESO AGENTE -->
+        <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+          <!-- BOTÓN COPIAR ENLACE GENERAL -->
+          <button 
+            type="button" 
+            onclick="copiarEnlaceGeneral()" 
+            class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 font-extrabold text-xs rounded-xl border border-slate-300 transition flex items-center gap-2 shadow-xs cursor-pointer shrink-0"
+            title="Copiar enlace general de la aplicación"
+          >
+            <svg class="w-4 h-4 text-rose-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            <span>COPIAR ENLACE</span>
+          </button>
+
+          <!-- BOTÓN ACCESO AGENTE -->
+          <button 
+            type="button" 
+            id="btn-acceso-agente"
+            onclick="abrirModalAgente()" 
+            class="px-4 py-2.5 bg-granada hover-bg-granada text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer shrink-0"
+          >
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <span id="texto-btn-agente">ACCESO AGENTE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- VISUALIZACIÓN DEL ENLACE GENERAL DE LA APLICACIÓN -->
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2 overflow-hidden">
+          <span class="font-extrabold text-slate-500 uppercase tracking-wider shrink-0">Enlace General:</span>
+          <span id="url-general-display" class="font-mono text-slate-800 truncate font-semibold">https://rosaexpress.app/</span>
+        </div>
+        <span class="text-[11px] font-medium text-slate-500 italic shrink-0">Un único enlace directo para todos los clientes</span>
+      </div>
+    </header>
+
+    <!-- FORMULARIO PÚBLICO DEL CLIENTE (PANTALLA PRINCIPAL) -->
+    <main id="seccion-formulario" class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+      <!-- HEADER DEL FORMULARIO -->
+      <div class="bg-granada p-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rose-900">
+        <div class="flex items-center gap-3">
+          <div class="p-3 bg-white/10 rounded-2xl">
+            <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-extrabold tracking-wide uppercase">Formulario de Solicitud de Transferencia</h2>
+            <p class="text-xs text-rose-200 mt-0.5">Rellene los 8 datos obligatorios para procesar su envío</p>
+          </div>
+        </div>
+        <span class="text-xs bg-white/20 text-white font-extrabold px-3.5 py-1.5 rounded-full self-start sm:self-auto uppercase tracking-wider">
+          8 Campos Obligatorios
+        </span>
+      </div>
+
+      <!-- FORMULARIO -->
+      <form id="form-solicitud" onsubmit="guardarSolicitud(event)" novalidate class="p-6 space-y-8">
+        
+        <!-- SECCIÓN 1: DATOS DEL REMITENTE -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+            <span class="w-3 h-3 rounded-full bg-granada"></span>
+            <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">I. Datos del Remitente</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- 1. NOMBRE -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                1. Nombre <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-nombre" 
+                placeholder="Ej. Juan Carlos" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-nombre" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+
+            <!-- 2. APELLIDO -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                2. Apellido <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-apellido" 
+                placeholder="Ej. Obiang Nguema" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-apellido" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+
+            <!-- 3. DIP -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                3. DIP <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-dip" 
+                placeholder="Ej. 09847281" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-dip" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+
+            <!-- 4. TELÉFONO REMITENTE -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                4. Teléfono del Remitente <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-tel-remitente" 
+                placeholder="Ej. +240 222 123 456" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-tel-remitente" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+
+            <!-- 5. DIRECCIÓN -->
+            <div class="campo-container md:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                5. Dirección <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-direccion" 
+                placeholder="Escribe tu dirección completa (Barrio, Ciudad)" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-direccion" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: MONTO Y DESTINATARIO -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-200">
+            <span class="w-3 h-3 rounded-full bg-granada"></span>
+            <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">II. Monto y Datos del Destinatario</h3>
+          </div>
+
+          <!-- 6. MONTO -->
+          <div class="campo-container">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+              6. Monto Exacto en Francos CFA (XAF) <span class="text-rose-600">*</span>
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none font-black text-granada text-sm">
+                XAF
+              </div>
+              <input 
+                type="number" 
+                id="campo-monto" 
+                step="500" 
+                min="500" 
+                placeholder="Ej. 150000" 
+                class="w-full pl-14 pr-4 py-3 bg-white border border-rose-300 rounded-xl text-lg font-bold text-slate-900 focus:ring-2 focus:ring-rose-800 outline-none transition"
+              >
+            </div>
+            <p id="err-monto" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+            <!-- 7. NOMBRE DEL DESTINATARIO -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                7. Nombre Completo del Destinatario <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-nombre-dest" 
+                placeholder="Ej. Esperanza Mangue" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-nombre-dest" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+
+            <!-- 8. TELÉFONO DEL DESTINATARIO -->
+            <div class="campo-container">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                8. Teléfono del Destinatario <span class="text-rose-600">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-tel-dest" 
+                placeholder="Ej. +240 555 987 654" 
+                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium text-slate-900 focus:ring-2 focus:ring-rose-800 focus:bg-white outline-none transition"
+              >
+              <p id="err-tel-dest" class="hidden text-[11px] font-bold text-rose-600 mt-1">Este campo es obligatorio.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÓN REGISTRAR -->
+        <div class="pt-4 border-t border-slate-100">
+          <button 
+            type="submit" 
+            id="btn-submit-form"
+            class="w-full py-4 bg-granada hover-bg-granada active-bg-granada text-white font-extrabold text-base rounded-xl shadow-lg transition duration-200 uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <svg class="w-5 h-5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <span id="btn-submit-text">REGISTRAR SOLICITUD</span>
+          </button>
+        </div>
+
+      </form>
+
+      <!-- CONFIRMACIÓN TRAS REGISTRAR -->
+      <div id="confirmacion-registro" class="hidden p-8 text-center space-y-4">
+        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3 class="text-2xl font-black text-slate-900">Su formulario ha sido rellenado con éxito.</h3>
+        <p class="text-sm font-medium text-slate-600 max-w-md mx-auto">
+          Los datos han sido guardados en la base de datos online de Rosa Express GE.
+        </p>
+        <button 
+          type="button" 
+          onclick="nuevoRegistro()" 
+          class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md transition uppercase tracking-wider"
+        >
+          Rellenar otra solicitud
+        </button>
+      </div>
+    </main>
+
+    <!-- PANEL PRIVADO DEL AGENTE (SOLO TRAS AUTENTICACIÓN) -->
+    <section id="seccion-agente" class="hidden space-y-6">
+      
+      <!-- CONTROLES SUPERIORES DEL PANEL DE AGENTE -->
+      <div class="bg-amber-50 rounded-2xl p-5 border-2 border-amber-300 shadow-md space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-amber-200">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-amber-600 text-white rounded-xl shadow-xs">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div>
+              <h2 class="text-lg font-black text-slate-900 uppercase tracking-wide">PANEL PRIVADO DEL AGENTE</h2>
+              <p class="text-xs text-amber-900 font-semibold">Base de datos online compartida. Copia individualmente los datos recibidos.</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <!-- PESTAÑAS ACTIVAS Y PAPELERA -->
+            <button 
+              type="button" 
+              id="tab-btn-activas"
+              onclick="cambiarPestanaAgente('activas')" 
+              class="px-3.5 py-2 bg-granada text-white font-bold text-xs rounded-xl shadow-xs transition"
+            >
+              Solicitudes (<span id="count-activas">0</span>)
+            </button>
+            <button 
+              type="button" 
+              id="tab-btn-papelera"
+              onclick="cambiarPestanaAgente('papelera')" 
+              class="px-3.5 py-2 bg-amber-200 text-amber-950 hover:bg-amber-300 font-bold text-xs rounded-xl transition flex items-center gap-1.5"
+            >
+              <svg class="w-3.5 h-3.5 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              <span>Papelera (<span id="count-papelera">0</span>)</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="cerrarSesionAgente()" 
+              class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs rounded-xl transition"
+              title="Salir del Panel Privado"
+            >
+              Salir
+            </button>
+          </div>
+        </div>
+
+        <!-- BARRA DE BÚSQUEDA Y ACCIONES GLOBAL EN EL PANEL -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="relative w-full sm:w-80">
+            <input 
+              type="text" 
+              id="input-busqueda" 
+              oninput="filtrarSolicitudes()"
+              placeholder="Buscar por nombre, apellido o destinatario..." 
+              class="w-full pl-9 pr-4 py-2 bg-white border border-amber-300 rounded-xl text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-rose-800 outline-none"
+            >
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <p class="text-[11px] font-bold text-amber-900 italic">
+            💡 Cada campo tiene su propio botón <span class="bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded font-black">COPIAR</span> a la derecha.
+          </p>
+        </div>
+      </div>
+
+      <!-- CONTENEDOR DE TARJETAS DE SOLICITUDES -->
+      <div id="lista-solicitudes" class="space-y-4">
+        <!-- Generado dinámicamente por JavaScript -->
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // --- ESTADO DE LA APLICACIÓN ---
+    window.solicitudes = window.solicitudes || [];
+    window.papelera = window.papelera || [];
+    let esAgente = false;
+    let pestanaAgente = 'activas'; // 'activas' | 'papelera'
+    const PASSWORD_AGENTE = 'rosak601';
+
+    // --- CARGA INICIAL ---
+    window.addEventListener('DOMContentLoaded', () => {
+      // Mostrar URL general
+      const currentUrl = window.location.origin + window.location.pathname;
+      document.getElementById('url-general-display').innerText = currentUrl;
+      renderizarPanelAgente();
+    });
+
+    // --- COPIAR ENLACE GENERAL ---
+    function copiarEnlaceGeneral() {
+      const currentUrl = window.location.origin + window.location.pathname;
+      copiarTextoAlPortapapeles(currentUrl);
+      mostrarToast('Enlace copiado correctamente.', 'exito');
+    }
+
+    // --- FUNCIÓN DE UTILIDAD PARA COPIAR TEXTO ---
+    function copiarTextoAlPortapapeles(texto) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texto);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = texto;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          console.error('Fallback copy error:', err);
+        }
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // --- NOTIFICACIONES TOAST ---
+    function mostrarToast(mensaje, tipo = 'exito') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const bgColor = tipo === 'exito' ? 'bg-slate-900 border-emerald-500' : 'bg-rose-900 border-rose-500';
+      toast.className = `${bgColor} text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl border-l-4 flex items-center justify-between gap-3 pointer-events-auto`;
+      
+      toast.innerHTML = `
+        <span>${mensaje}</span>
+        <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white">&times;</button>
+      `;
+
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 3500);
+    }
+
+    // --- AUTENTICACIÓN DEL AGENTE ---
+    function abrirModalAgente() {
+      if (esAgente) {
+        const seccionForm = document.getElementById('seccion-formulario');
+        const seccionAg = document.getElementById('seccion-agente');
+        if (seccionAg.classList.contains('hidden')) {
+          seccionForm.classList.add('hidden');
+          seccionAg.classList.remove('hidden');
+          document.getElementById('texto-btn-agente').innerText = 'VER FORMULARIO';
+        } else {
+          seccionAg.classList.add('hidden');
+          seccionForm.classList.remove('hidden');
+          document.getElementById('texto-btn-agente').innerText = 'PANEL AGENTE';
+        }
+        return;
+      }
+
+      document.getElementById('password-input').value = '';
+      document.getElementById('password-error').classList.add('hidden');
+      document.getElementById('modal-acceso-agente').classList.remove('hidden');
+      setTimeout(() => document.getElementById('password-input').focus(), 100);
+    }
+
+    function cerrarModalAgente() {
+      document.getElementById('modal-acceso-agente').classList.add('hidden');
+    }
+
+    function verificarPassword() {
+      const val = document.getElementById('password-input').value.trim().toLowerCase();
+      if (val === PASSWORD_AGENTE || val === 'códigorosak601' || val === 'codigorosak601' || val === 'rosack601') {
+        esAgente = true;
+        cerrarModalAgente();
+        
+        document.getElementById('seccion-formulario').classList.add('hidden');
+        document.getElementById('seccion-agente').classList.remove('hidden');
+        document.getElementById('texto-btn-agente').innerText = 'VER FORMULARIO';
+        
+        renderizarPanelAgente();
+        mostrarToast('Acceso concedido al Panel de Agente', 'exito');
+      } else {
+        document.getElementById('password-error').classList.remove('hidden');
+      }
+    }
+
+    function cerrarSesionAgente() {
+      esAgente = false;
+      document.getElementById('seccion-agente').classList.add('hidden');
+      document.getElementById('seccion-formulario').classList.remove('hidden');
+      document.getElementById('texto-btn-agente').innerText = 'ACCESO AGENTE';
+      mostrarToast('Sesión de agente cerrada', 'exito');
+    }
+
+    // --- GUARDAR FORMULARIO PÚBLICO DEL CLIENTE ---
+    async function guardarSolicitud(e) {
+      e.preventDefault();
+
+      // Validación de 8 campos obligatorios
+      const campos = [
+        { id: 'campo-nombre', errId: 'err-nombre' },
+        { id: 'campo-apellido', errId: 'err-apellido' },
+        { id: 'campo-dip', errId: 'err-dip' },
+        { id: 'campo-tel-remitente', errId: 'err-tel-remitente' },
+        { id: 'campo-direccion', errId: 'err-direccion' },
+        { id: 'campo-monto', errId: 'err-monto' },
+        { id: 'campo-nombre-dest', errId: 'err-nombre-dest' },
+        { id: 'campo-tel-dest', errId: 'err-tel-dest' }
+      ];
+
+      let tieneErrores = false;
+
+      campos.forEach(c => {
+        const el = document.getElementById(c.id);
+        const errEl = document.getElementById(c.errId);
+        if (!el.value || !el.value.trim()) {
+          tieneErrores = true;
+          el.classList.add('border-rose-600');
+          if (errEl) errEl.classList.remove('hidden');
+        } else {
+          el.classList.remove('border-rose-600');
+          if (errEl) errEl.classList.add('hidden');
+        }
+      });
+
+      if (tieneErrores) {
+        mostrarToast('⚠️ Por favor complete todos los campos obligatorios', 'error');
+        return;
+      }
+
+      const btnSubmit = document.getElementById('btn-submit-form');
+      const btnText = document.getElementById('btn-submit-text');
+      btnSubmit.disabled = true;
+      btnText.innerText = 'GUARDANDO...';
+
+      const nombre = document.getElementById('campo-nombre').value.trim();
+      const apellido = document.getElementById('campo-apellido').value.trim();
+      const dip = document.getElementById('campo-dip').value.trim();
+      const telRemitente = document.getElementById('campo-tel-remitente').value.trim();
+      const direccion = document.getElementById('campo-direccion').value.trim();
+      const montoVal = Number(document.getElementById('campo-monto').value);
+      const nombreDest = document.getElementById('campo-nombre-dest').value.trim();
+      const telDest = document.getElementById('campo-tel-dest').value.trim();
+      const now = new Date().toISOString();
+
+      try {
+        if (window.addDoc && window.collection && window.db) {
+          await window.addDoc(window.collection(window.db, "solicitudes"), {
+            nombre: nombre,
+            apellido: apellido,
+            dip: dip,
+            telefonoRemitente: telRemitente,
+            telefono: telRemitente,
+            direccion: direccion,
+            monto: montoVal,
+            montoXAF: montoVal,
+            nombreDestinatario: nombreDest,
+            telefonoDestinatario: telDest,
+            fechaCreacion: now,
+            createdAt: now,
+            estado: "Pendiente",
+            eliminado: false
+          });
+        }
+
+        // Mostrar notificación de éxito requerida
+        mostrarToast('Su formulario ha sido rellenado con éxito.', 'exito');
+
+        // Mostrar pantalla de confirmación y limpiar formulario
+        document.getElementById('form-solicitud').reset();
+        document.getElementById('form-solicitud').classList.add('hidden');
+        document.getElementById('confirmacion-registro').classList.remove('hidden');
+
+      } catch (err) {
+        console.error("Error guardando solicitud en Firestore:", err);
+        mostrarToast('❌ Error al guardar en la base de datos', 'error');
+      } finally {
+        btnSubmit.disabled = false;
+        btnText.innerText = 'REGISTRAR SOLICITUD';
+      }
+    }
+
+    function nuevoRegistro() {
+      document.getElementById('form-solicitud').reset();
+      document.getElementById('confirmacion-registro').classList.add('hidden');
+      document.getElementById('form-solicitud').classList.remove('hidden');
+    }
+
+    // --- RENDERIZAR Y FILTRAR EN EL PANEL DEL AGENTE ---
+    function cambiarPestanaAgente(pestana) {
+      pestanaAgente = pestana;
+      const btnAct = document.getElementById('tab-btn-activas');
+      const btnPap = document.getElementById('tab-btn-papelera');
+
+      if (pestana === 'activas') {
+        btnAct.className = 'px-3.5 py-2 bg-granada text-white font-bold text-xs rounded-xl shadow-xs transition';
+        btnPap.className = 'px-3.5 py-2 bg-amber-200 text-amber-950 hover:bg-amber-300 font-bold text-xs rounded-xl transition flex items-center gap-1.5';
+      } else {
+        btnPap.className = 'px-3.5 py-2 bg-granada text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5';
+        btnAct.className = 'px-3.5 py-2 bg-amber-200 text-amber-950 hover:bg-amber-300 font-bold text-xs rounded-xl transition';
+      }
+
+      renderizarPanelAgente();
+    }
+
+    function filtrarSolicitudes() {
+      renderizarPanelAgente();
+    }
+
+    window.renderizarPanelAgente = function() {
+      const container = document.getElementById('lista-solicitudes');
+      const countActivas = document.getElementById('count-activas');
+      const countPapelera = document.getElementById('count-papelera');
+
+      const solList = window.solicitudes || [];
+      const papList = window.papelera || [];
+
+      if (countActivas) countActivas.innerText = solList.length;
+      if (countPapelera) countPapelera.innerText = papList.length;
+
+      const query = (document.getElementById('input-busqueda')?.value || '').toLowerCase().trim();
+      const coleccionBase = pestanaAgente === 'activas' ? solList : papList;
+      
+      const filtradas = coleccionBase.filter(s => {
+        if (!query) return true;
+        const nombreFull = `${s.nombre || ''} ${s.apellido || ''}`.toLowerCase();
+        const destFull = `${s.nombreDestinatario || ''}`.toLowerCase();
+        const dip = `${s.dip || ''}`.toLowerCase();
+        return nombreFull.includes(query) || destFull.includes(query) || dip.includes(query);
+      });
+
+      if (filtradas.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-2">
+            <p class="text-sm font-bold text-slate-500">No hay solicitudes registradas ${pestanaAgente === 'papelera' ? 'en la papelera' : ''}.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtradas.map((s) => {
+        const rawFecha = s.fechaCreacion || s.createdAt || s.fecha || new Date().toISOString();
+        const fechaObj = new Date(rawFecha);
+        const fechaFormatted = fechaObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const horaFormatted = fechaObj.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        const montoVal = s.monto || s.montoXAF || 0;
+        const montoFormatted = new Intl.NumberFormat('fr-FR').format(montoVal);
+        const telRem = s.telefonoRemitente || s.telefono || '';
+        const idShort = s.id ? s.id.slice(-6) : 'N/A';
+
+        return `
+          <div class="bg-white rounded-2xl border-2 border-slate-200 shadow-md p-5 space-y-4 hover:border-amber-400 transition">
+            
+            <!-- ENCABEZADO TARJETA CON FECHA Y HORA -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-granada"></span>
+                <span class="text-xs font-black text-slate-900 uppercase">Solicitud #${idShort}</span>
+                <span class="text-[11px] font-semibold text-slate-500">• Fecha: ${fechaFormatted} | Hora: ${horaFormatted}</span>
+              </div>
+
+              <!-- ACCIÓN SUPERIOR (MOVER A PAPELERA O RECUPERAR) -->
+              <div>
+                ${pestanaAgente === 'activas' ? `
+                  <button 
+                    type="button" 
+                    onclick="confirmarMoverPapelera('${s.id}')" 
+                    class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-extrabold text-xs rounded-lg transition flex items-center gap-1 cursor-pointer"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    <span>Mover a Papelera</span>
+                  </button>
+                ` : `
+                  <div class="flex items-center gap-2">
+                    <button 
+                      type="button" 
+                      onclick="recuperarDePapelera('${s.id}')" 
+                      class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 font-extrabold text-xs rounded-lg transition flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Recuperar</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      onclick="confirmarEliminarDefinitivo('${s.id}')" 
+                      class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-lg transition flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Eliminar Definitivamente</span>
+                    </button>
+                  </div>
+                `}
+              </div>
+            </div>
+
+            <!-- GRID DE LOS CAMPOS CON BOTÓN COPIAR A LA DERECHA DE CADA CAMPO -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+              
+              <!-- 1. NOMBRE -->
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <span class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1">Nombre</span>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold text-slate-900 truncate">${escapeHtml(s.nombre)}</span>
+                  <button type="button" onclick="copiarDatoCampo('${escapeJs(s.nombre)}')" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-lg transition shrink-0 flex items-center gap-1 shadow-2xs">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    <span>COPIAR</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 2. APELLIDO -->
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <span class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1">Apellido</span>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold text-slate-900 truncate">${escapeHtml(s.apellido)}</span>
+                  <button type="button" onclick="copiarDatoCampo('${escapeJs(s.apellido)}')" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-lg transition shrink-0 flex items-center gap-1 shadow-2xs">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    <span>COPIAR</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. DIP -->
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <span class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1">DIP</span>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold text-slate-900 truncate">${escapeHtml(s.dip)}</span>
+                  <button type="button" onclick="copiarDatoCampo('${escapeJs(s.dip)}')" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-lg transition shrink-0 flex items-center gap-1 shadow-2xs">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    <span>COPIAR</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 4. MONTO -->
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <span class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1">Monto (XAF)</span>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-black text-granada truncate">${montoFormatted} XAF</span>
+                  <button type="button" onclick="copiarDatoCampo('${montoVal}')" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-lg transition shrink-0 flex items-center gap-1 shadow-2xs">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H
